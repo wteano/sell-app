@@ -1,24 +1,32 @@
 <template>
-  <div class="sidebar">
-    <van-sidebar v-model="activeKey">
-      <van-sidebar-item title="标签名称" badge="5" />
-      <van-sidebar-item title="标签名称" badge="5" />
-      <van-sidebar-item title="标签名称" badge="5" />
+    <van-sidebar v-model="activeKey" >
+      <van-sidebar-item  v-for="(item,index) in items" :key="index" :title="item.text" :badge="0" />
     </van-sidebar>
-  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Cate } from '@/type'
 @Component
 export default class Sidebar extends Vue {
-  activeKey = 0;
+  activeKey = 1;
+  @Prop({ type: Array, default: [] }) items!: Array<Cate>;
 }
 </script>
 
 <style lang="less" scoped>
-.sidebar {
-  height: 100%;
-}
+  /deep/.van-sidebar {
+    width: 100%;
+    text-align: center;
+  }
+
+  /deep/.van-sidebar-item {
+    width: 100%;
+    border-bottom: 4px solid #e5e6ec;
+    box-sizing: border-box;
+  }
+  .van-sidebar-item--select::before/deep/ {
+    content: '';
+    display: none;
+  }
 </style>

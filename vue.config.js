@@ -1,5 +1,19 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
+  // 本地代理解决服务器跨域问题
+  devServer: {
+    proxy: {
+      '/api': {
+        // 浏览器 请求的URL http://localhost:8080/api 全等于http://115.159.153.85:5000
+        target: 'http://115.159.153.85:5000', // 真实的服务器地址
+        ws: true, // 是否支持 websocket 请求 支持
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^/api': '' // 替换 /api 为真实的服务器地址
+        }
+      }
+    }
+  },
   transpileDependencies: true,
   css: {
     loaderOptions: {
@@ -8,7 +22,7 @@ module.exports = defineConfig({
           plugins: [
             require('postcss-px-to-viewport')({
               unitToConvert: 'px', // 需要转换的单位，默认为"px"
-              viewportWidth: 375, // 视窗的宽度，对应移动端设计稿的宽度，一般是375
+              viewportWidth: 1080, // 视窗的宽度，对应移动端设计稿的宽度，一般是375
               unitPrecision: 3, // 单位转换后保留的精度
               propList: [
                 // 能转化为vw的属性列表
